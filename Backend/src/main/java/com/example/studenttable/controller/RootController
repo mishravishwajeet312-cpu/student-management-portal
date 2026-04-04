@@ -1,0 +1,7 @@
+@RestController
+public class RootController {
+    @GetMapping("/")
+    public String root() {
+        return "API is running";
+    }
+}
