@@ -61,9 +61,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/error").permitAll()
-                        // Allow Render health checks on root
-                        .requestMatchers(HttpMethod.HEAD, "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
+                        // Health check for Render
+                        .requestMatchers(HttpMethod.GET, "/health").permitAll()
 
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST,
