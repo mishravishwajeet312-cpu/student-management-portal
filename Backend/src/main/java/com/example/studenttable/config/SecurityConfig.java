@@ -61,6 +61,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/error").permitAll()
+                        // Allow Render health checks on root
+                        .requestMatchers(HttpMethod.HEAD, "/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
+
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/auth/forgot-password",
@@ -90,21 +94,20 @@ public class SecurityConfig {
         return http.build();
     }
 
-   @Bean
-public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration config = new CorsConfiguration();
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
 
-    config.setAllowedOrigins(allowedOrigins);
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    config.setAllowedHeaders(List.of("*"));
-    config.setExposedHeaders(List.of("Authorization"));
-    config.setAllowCredentials(true);
+        config.setAllowedOrigins(allowedOrigins);
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("Authorization"));
+        config.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
-    return source;
-}
-    
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
