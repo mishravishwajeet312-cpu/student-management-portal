@@ -22,7 +22,9 @@ public class Question {
     @JsonIgnore
     private Quiz quiz;
 
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    // FIX: PostgreSQL does not support LONGTEXT; use @Lob or columnDefinition = "text"
+    @Lob
+    @Column(nullable = false)
     private String questionText;
 
     @Column(nullable = false)
